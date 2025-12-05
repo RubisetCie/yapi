@@ -2,8 +2,8 @@ import type { Environment, PluginDefinition } from '@yaakapp/api';
 
 export const plugin: PluginDefinition = {
   importer: {
-    name: 'Yaak',
-    description: 'Yaak official format',
+    name: 'Yapi',
+    description: 'Yapi official format',
     onImport(_ctx, args) {
       return migrateImport(args.text);
     },

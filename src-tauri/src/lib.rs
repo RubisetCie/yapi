@@ -1397,7 +1397,7 @@ pub fn run() {
                     let h = app_handle.clone();
                     tauri::async_runtime::spawn(async move {
                         let info = history::get_or_upsert_launch_info(&h);
-                        debug!("Launched Yeek {:?}", info);
+                        debug!("Launched Yapi {:?}", info);
                     });
 
                     // Cancel pending requests

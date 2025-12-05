@@ -1,7 +1,7 @@
 {
   "name": "@yaak/themes-yaak",
-  "displayName": "Yaak Themes",
-  "description": "Default themes for Yaak",
+  "displayName": "Yapi Themes",
+  "description": "Default themes",
   "private": true,
   "version": "0.1.0",
   "scripts": {

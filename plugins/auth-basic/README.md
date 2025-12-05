@@ -8,7 +8,7 @@ authentication with username and password credentials.
 
 ## Overview
 
-This plugin provides HTTP Basic Authentication support for API requests in Yaak. Basic
+This plugin provides HTTP Basic Authentication support for API requests in Yapi. Basic
 Auth is one of the most widely supported authentication methods, making it ideal for APIs
 that require simple username/password authentication without the complexity of OAuth
 flows.

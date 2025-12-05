@@ -14,7 +14,7 @@ async function op(args: CallTemplateFunctionArgs): Promise<Client | null> {
   try {
     _clients[tokenHash] ??= await createClient({
       auth: token,
-      integrationName: 'Yaak 1Password Plugin',
+      integrationName: '1Password Plugin',
       integrationVersion: 'v1.0.0',
     });
   } catch {

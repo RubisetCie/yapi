@@ -190,7 +190,7 @@ pub(crate) fn create_main_window(handle: &AppHandle, url: &str) -> Result<Webvie
     let config = CreateWindowConfig {
         url,
         label: label.as_str(),
-        title: "Yeek",
+        title: "Yapi",
         inner_size: Some((DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT)),
         position: Some((
             // Offset by random amount so it's easier to differentiate

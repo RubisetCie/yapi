@@ -400,7 +400,7 @@ function SetupGitDropdown({
             const confirmed = await showConfirm({
               id: 'hide-git-init-prompt',
               title: 'Hide Git Setup',
-              description: 'You can initialize a git repo outside of Yaak to bring this back',
+              description: 'You can initialize a git repo outside of Yapi to bring this back',
             });
             if (confirmed) {
               await setHidden((prev) => ({ ...prev, [workspaceId]: true }));

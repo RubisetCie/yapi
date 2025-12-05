@@ -13,7 +13,7 @@ export function useSyncWorkspaceRequestTitle() {
   const activeRequest = useAtomValue(activeRequestAtom);
 
   useEffect(() => {
-    let newTitle = activeWorkspace ? activeWorkspace.name : 'Yaak';
+    let newTitle = activeWorkspace ? activeWorkspace.name : 'Yapi';
     if (activeEnvironment) {
       newTitle += ` [${activeEnvironment.name}]`;
     }

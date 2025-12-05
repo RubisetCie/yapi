@@ -1,16 +1,16 @@
-# Yaak Plugin API
+# Yapi Plugin API
 
-Yaak is a desktop [API client](https://yaak.app/blog/yet-another-api-client) for
+Yapi is a desktop [API client](https://yaak.app/blog/yet-another-api-client) for
 interacting with REST, GraphQL, Server Sent Events (SSE), WebSocket, and gRPC APIs. It's
 built using Tauri, Rust, and ReactJS.
 
-Plugins can be created in TypeScript, which are executed alongside Yaak in a NodeJS
+Plugins can be created in TypeScript, which are executed alongside Yapi in a NodeJS
 runtime. This package contains the TypeScript type definitions required to make building
-Yaak plugins a breeze.
+Yapi plugins a breeze.
 
 ## Quick Start
 
-The easiest way to get started is by generating a plugin with the Yaak CLI:
+The easiest way to get started is by generating a plugin with the Yapi CLI:
 
 ```shell
 npx @yaakapp/cli generate

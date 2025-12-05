@@ -9,7 +9,7 @@ pub fn yaak_api_client<R: Runtime>(app_handle: &AppHandle<R>) -> Result<Client> 
     let platform = get_ua_platform();
     let version = app_handle.package_info().version.clone();
     let arch = get_ua_arch();
-    let ua = format!("Yeek/{version} ({platform} {arch})");
+    let ua = format!("Yapi/{version} ({platform} {arch})");
     let mut default_headers = HeaderMap::new();
     default_headers.insert("Accept", HeaderValue::from_str("application/json").unwrap());
 

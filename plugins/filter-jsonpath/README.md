@@ -8,7 +8,7 @@ from complex JSON structures.
 
 ## Overview
 
-This plugin provides JSONPath filtering for responses in Yaak. JSONPath is a query
+This plugin provides JSONPath filtering for responses in Yapi. JSONPath is a query
 language for JSON, similar to XPath for XML, that provides the ability to extract data
 from JSON documents using a simple, expressive syntax. This is useful for working with
 complex API responses where you need to only view a small subset of response data.

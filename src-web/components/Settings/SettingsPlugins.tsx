@@ -276,7 +276,7 @@ function InstalledPlugins() {
   return plugins.length === 0 ? (
     <div className="pb-4">
       <EmptyStateText className="text-center">
-        Plugins extend the functionality of Yaak.
+        Plugins extend the functionality of Yapi.
         <br />
         Add your first plugin to get started.
       </EmptyStateText>

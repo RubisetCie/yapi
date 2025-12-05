@@ -1,6 +1,6 @@
 # Bearer Token Authentication Plugin
 
-A Bearer Token authentication plugin for Yaak that
+A Bearer Token authentication plugin for Yapi that
 implements [RFC 6750](https://datatracker.ietf.org/doc/html/rfc6750), enabling secure API
 access using tokens, API keys, and other bearer credentials.
 
@@ -8,7 +8,7 @@ access using tokens, API keys, and other bearer credentials.
 
 ## Overview
 
-This plugin provides Bearer Token authentication support for your API requests in Yaak.
+This plugin provides Bearer Token authentication support for your API requests in Yapi.
 Bearer Token authentication is widely used in modern APIs, especially those following REST
 principles and OAuth 2.0 standards. It's the preferred method for APIs that issue access
 tokens, API keys, or other bearer credentials.

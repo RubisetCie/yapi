@@ -2,7 +2,7 @@
 
 An HTTP request action plugin that converts gRPC requests
 into [gRPCurl](https://github.com/fullstorydev/grpcurl) commands, enabling easy sharing,
-debugging, and execution of gRPC calls outside Yaak.
+debugging, and execution of gRPC calls outside Yapi.
 
 ![Screenshot of context menu](screenshot.png)
 
@@ -27,7 +27,7 @@ The plugin analyzes your gRPC request configuration and generates a properly for
 
 ## Usage
 
-1. Configure a gRPC request as usual in Yaak
+1. Configure a gRPC request as usual in Yapi
 2. Right-click on the request sidebar item
 3. Select "Copy as gRPCurl" from the available actions
 4. The command is copied to your clipboard

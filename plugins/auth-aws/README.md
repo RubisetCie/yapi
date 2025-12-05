@@ -9,7 +9,7 @@ Cloudflare R2).
 
 ## Overview
 
-This plugin provides AWS Signature authentication for API requests in Yaak. SigV4 is used
+This plugin provides AWS Signature authentication for API requests in Yapi. SigV4 is used
 by nearly all AWS APIs to verify the authenticity and integrity of requests using
 cryptographic signatures.
 

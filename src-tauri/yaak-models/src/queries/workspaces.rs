@@ -19,7 +19,7 @@ impl<'a> DbContext<'a> {
         if workspaces.is_empty() {
             workspaces.push(self.upsert_workspace(
                 &Workspace {
-                    name: "Yeek".to_string(),
+                    name: "Yapi".to_string(),
                     setting_follow_redirects: true,
                     setting_validate_certificates: true,
                     ..Default::default()

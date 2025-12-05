@@ -1,7 +1,7 @@
 {
   "name": "@yaak/importer-yaak",
-  "displayName": "Yaak Importer",
-  "description": "Import data from Yaak export files",
+  "displayName": "Yapi Importer",
+  "description": "Import data from Yapi export files",
   "private": true,
   "version": "0.1.0",
   "scripts": {
