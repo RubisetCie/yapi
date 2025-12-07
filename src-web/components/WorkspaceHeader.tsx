@@ -54,7 +54,7 @@ export const WorkspaceHeader = memo(function WorkspaceHeader({ className }: Prop
           <PillButton color="danger" onClick={setupOrConfigureEncryption}>
             Enter Encryption Key
           </PillButton>
-        ):<div style="display:inline"></div>}
+        ):<div style={{display:'inline'}}></div>}
         <IconButton
           icon={
             workspaceLayout === 'responsive'

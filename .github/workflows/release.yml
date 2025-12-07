@@ -101,14 +101,16 @@ jobs:
           YAAK_VERSION: ${{ github.event.inputs.version_tag }}
 
       - name: Build release
-        uses: RubisetCie/tauri-action@dev
+        uses: tauri-apps/tauri-action@v0
         env:
           YAAK_TARGET_ARCH: ${{ matrix.yaak_arch }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tagName: 'v__VERSION__'
           releaseName: 'Release __VERSION__'
-          releaseBody: 'Stable release of **Yapi** aligned with **Yaak** __VERSION__'
+          releaseBody: 'Stable release of **Yapi** version __VERSION__'
           releaseDraft: true
           prerelease: false
+          uploadPlainBinary: false
+          assetNamePattern: '[name]-[version]-[platform]-[arch][setup][ext]'
           args: '${{ matrix.args }} --config ./src-tauri/tauri.release.conf.json'
