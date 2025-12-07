@@ -108,7 +108,7 @@ jobs:
         with:
           tagName: 'v__VERSION__'
           releaseName: 'Release __VERSION__'
-          releaseBody: 'Stable release of **Yapi** aligned with **Yaak** __VERSION__'
+          releaseBody: 'Stable release of **Yapi** __VERSION__'
           releaseDraft: true
           prerelease: false
           args: '${{ matrix.args }} --config ./src-tauri/tauri.release.conf.json'
