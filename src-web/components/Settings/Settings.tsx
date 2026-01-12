@@ -1,16 +1,21 @@
 import { useSearch } from '@tanstack/react-router';
 import { getCurrentWebviewWindow } from '@tauri-apps/api/webviewWindow';
 import { type } from '@tauri-apps/plugin-os';
+import { pluginsAtom, settingsAtom } from '@yaakapp-internal/models';
 import classNames from 'classnames';
+import { useAtomValue } from 'jotai';
 import { useState } from 'react';
 import { useKeyPressEvent } from 'react-use';
 import { appInfo } from '../../lib/appInfo';
 import { capitalize } from '../../lib/capitalize';
+import { CountBadge } from '../core/CountBadge';
+import { Icon } from '../core/Icon';
 import { HStack } from '../core/Stacks';
-import type { TabItem } from '../core/Tabs/Tabs';
-import { TabContent, Tabs } from '../core/Tabs/Tabs';
+import { TabContent, type TabItem, Tabs } from '../core/Tabs/Tabs';
 import { HeaderSize } from '../HeaderSize';
+import { SettingsCertificates } from './SettingsCertificates';
 import { SettingsGeneral } from './SettingsGeneral';
+import { SettingsHotkeys } from './SettingsHotkeys';
 import { SettingsInterface } from './SettingsInterface';
 import { SettingsPlugins } from './SettingsPlugins';
 import { SettingsProxy } from './SettingsProxy';
@@ -23,14 +28,28 @@ interface Props {
 const TAB_GENERAL = 'general';
 const TAB_INTERFACE = 'interface';
 const TAB_THEME = 'theme';
+const TAB_SHORTCUTS = 'shortcuts';
 const TAB_PROXY = 'proxy';
+const TAB_CERTIFICATES = 'certificates';
 const TAB_PLUGINS = 'plugins';
-const tabs = [TAB_GENERAL, TAB_THEME, TAB_INTERFACE, TAB_PROXY, TAB_PLUGINS] as const;
+const tabs = [
+  TAB_GENERAL,
+  TAB_THEME,
+  TAB_INTERFACE,
+  TAB_SHORTCUTS,
+  TAB_CERTIFICATES,
+  TAB_PROXY,
+  TAB_PLUGINS,
+] as const;
 export type SettingsTab = (typeof tabs)[number];
 
 export default function Settings({ hide }: Props) {
   const { tab: tabFromQuery } = useSearch({ from: '/workspaces/$workspaceId/settings' });
-  const [tab, setTab] = useState<string | undefined>(tabFromQuery);
+  // Parse tab and subtab (e.g., "plugins:installed")
+  const [mainTab, subtab] = tabFromQuery?.split(':') ?? [];
+  const [tab, setTab] = useState<string | undefined>(mainTab || tabFromQuery);
+  const settings = useAtomValue(settingsAtom);
+  const plugins = useAtomValue(pluginsAtom);
 
   // Close settings window on escape
   // TODO: Could this be put in a better place? Eg. in Rust key listener when creating the window
@@ -77,6 +96,30 @@ export default function Settings({ hide }: Props) {
             value,
             label: capitalize(value),
             hidden: false,
+            leftSlot:
+              value === TAB_GENERAL ? (
+                <Icon icon="settings" className="text-secondary" />
+              ) : value === TAB_THEME ? (
+                <Icon icon="palette" className="text-secondary" />
+              ) : value === TAB_INTERFACE ? (
+                <Icon icon="columns_2" className="text-secondary" />
+              ) : value === TAB_SHORTCUTS ? (
+                <Icon icon="keyboard" className="text-secondary" />
+              ) : value === TAB_CERTIFICATES ? (
+                <Icon icon="shield_check" className="text-secondary" />
+              ) : value === TAB_PROXY ? (
+                <Icon icon="wifi" className="text-secondary" />
+              ) : value === TAB_PLUGINS ? (
+                <Icon icon="puzzle" className="text-secondary" />
+              ) : null,
+            rightSlot:
+              value === TAB_CERTIFICATES ? (
+                <CountBadge count={settings.clientCertificates.length} />
+              ) : value === TAB_PLUGINS ? (
+                <CountBadge count={plugins.length} />
+              ) : value === TAB_PROXY && settings.proxy?.type === 'enabled' ? (
+                <CountBadge count />
+              ) : null,
           }),
         )}
       >
@@ -89,11 +132,17 @@ export default function Settings({ hide }: Props) {
         <TabContent value={TAB_THEME} className="overflow-y-auto h-full px-6 !py-4">
           <SettingsTheme />
         </TabContent>
+        <TabContent value={TAB_SHORTCUTS} className="overflow-y-auto h-full px-6 !py-4">
+          <SettingsHotkeys />
+        </TabContent>
         <TabContent value={TAB_PLUGINS} className="h-full grid grid-rows-1 px-6 !py-4">
-          <SettingsPlugins />
+          <SettingsPlugins defaultSubtab={tab === TAB_PLUGINS ? subtab : undefined} />
         </TabContent>
         <TabContent value={TAB_PROXY} className="overflow-y-auto h-full px-6 !py-4">
           <SettingsProxy />
+        </TabContent>
+        <TabContent value={TAB_CERTIFICATES} className="overflow-y-auto h-full px-6 !py-4">
+          <SettingsCertificates />
         </TabContent>
       </Tabs>
     </div>

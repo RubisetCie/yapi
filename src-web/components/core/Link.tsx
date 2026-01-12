@@ -20,19 +20,12 @@ export function Link({ href, children, noUnderline, className, ...other }: Props
   );
 
   if (isExternal) {
-    const isYaakLink = href.startsWith('https://yaak.app');
-    let finalHref = href;
-    if (isYaakLink) {
-      const url = new URL(href);
-      url.searchParams.set('ref', appInfo.identifier);
-      finalHref = url.toString();
-    }
     return (
       // eslint-disable-next-line react/jsx-no-target-blank
       <a
-        href={finalHref}
+        href={href}
         target="_blank"
-        rel={isYaakLink ? undefined : 'noopener noreferrer'}
+        rel='noopener noreferrer'
         onClick={(e) => e.preventDefault()}
         className={className}
         {...other}

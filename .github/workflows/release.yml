@@ -5,7 +5,7 @@ on:
       version_tag:
         type: string
         description: Version tag
-        default: '1.0.0'
+        default: "1.0.0"
         required: true
       unit_tests:
         description: Run unit tests
@@ -23,43 +23,43 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - platform: 'macos-latest' # for Arm-based Macs (M1 and above).
-            args: '--target aarch64-apple-darwin'
-            yaak_arch: 'arm64'
-            os: 'macos'
-            name: 'Mac OS ARM64'
-            targets: 'aarch64-apple-darwin'
-          - platform: 'macos-latest' # for Intel-based Macs.
-            args: '--target x86_64-apple-darwin'
-            yaak_arch: 'x64'
-            os: 'macos'
-            name: 'Mac OS x64'
-            targets: 'x86_64-apple-darwin'
-          - platform: 'ubuntu-22.04'
-            args: ''
-            yaak_arch: 'x64'
-            os: 'ubuntu'
-            name: 'Linux x64'
-            targets: ''
-          - platform: 'ubuntu-22.04-arm'
-            args: ''
-            yaak_arch: 'arm64'
-            os: 'ubuntu'
-            name: 'Linux ARM64'
-            targets: ''
-          - platform: 'windows-latest'
-            args: ''
-            yaak_arch: 'x64'
-            os: 'windows'
-            name: 'Windows x64'
-            targets: ''
+          - platform: "macos-latest" # for Arm-based Macs (M1 and above).
+            args: "--target aarch64-apple-darwin"
+            yaak_arch: "arm64"
+            os: "macos"
+            name: "Mac OS ARM64"
+            targets: "aarch64-apple-darwin"
+          - platform: "macos-latest" # for Intel-based Macs.
+            args: "--target x86_64-apple-darwin"
+            yaak_arch: "x64"
+            os: "macos"
+            name: "Mac OS x64"
+            targets: "x86_64-apple-darwin"
+          - platform: "ubuntu-22.04"
+            args: ""
+            yaak_arch: "x64"
+            os: "ubuntu"
+            name: "Linux x64"
+            targets: ""
+          - platform: "ubuntu-22.04-arm"
+            args: ""
+            yaak_arch: "arm64"
+            os: "ubuntu"
+            name: "Linux ARM64"
+            targets: ""
+          - platform: "windows-latest"
+            args: ""
+            yaak_arch: "x64"
+            os: "windows"
+            name: "Windows x64"
+            targets: ""
           # Windows ARM64
-          - platform: 'windows-latest'
-            args: '--target aarch64-pc-windows-msvc'
-            yaak_arch: 'arm64'
-            os: 'windows'
-            name: 'Windows ARM64'
-            targets: 'aarch64-pc-windows-msvc'
+          - platform: "windows-latest"
+            args: "--target aarch64-pc-windows-msvc"
+            yaak_arch: "arm64"
+            os: "windows"
+            name: "Windows ARM64"
+            targets: "aarch64-pc-windows-msvc"
     runs-on: ${{ matrix.platform }}
     timeout-minutes: 40
     steps:
@@ -87,13 +87,14 @@ jobs:
 
       - name: Install JS modules
         run: npm ci
+      - name: Bootstrapping
+        run: npm run bootstrap
       - name: Run JS Tests
         run: npm test
         if: ${{ github.event.inputs.unit_tests == 'true' }}
       - name: Run Rust Tests
         run: cargo test --all
         if: ${{ github.event.inputs.unit_tests == 'true' }}
-        working-directory: src-tauri
 
       - name: Set version
         run: npm run replace-version
@@ -106,11 +107,11 @@ jobs:
           YAAK_TARGET_ARCH: ${{ matrix.yaak_arch }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: 'v__VERSION__'
-          releaseName: 'Release __VERSION__'
-          releaseBody: 'Stable release of **Yapi** version __VERSION__'
+          tagName: "v__VERSION__"
+          releaseName: "Release __VERSION__"
+          releaseBody: "Stable release of **Yapi** version __VERSION__"
           releaseDraft: true
           prerelease: false
           uploadPlainBinary: false
           assetNamePattern: '[name]-[version]-[platform]-[arch][setup][ext]'
-          args: '${{ matrix.args }} --config ./src-tauri/tauri.release.conf.json'
+          args: "${{ matrix.args }} --config ./crates-tauri/yaak-app/tauri.release.conf.json"

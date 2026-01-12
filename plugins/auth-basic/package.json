@@ -4,7 +4,7 @@
   "description": "Authenticate requests using Basic Auth",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mountain-loop/yaak.git",
+    "url": "https://github.com/RubisetCie/yapi.git",
     "directory": "plugins/auth-basic"
   },
   "private": true,

@@ -4,7 +4,7 @@
   "description": "Filter JSON response data using JSONPath expressions",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mountain-loop/yaak.git",
+    "url": "https://github.com/RubisetCie/yapi.git",
     "directory": "plugins/filter-jsonpath"
   },
   "private": true,

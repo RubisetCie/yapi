@@ -11,6 +11,7 @@ import { showConfirm } from '../../lib/confirm';
 import { invokeCmd } from '../../lib/tauri';
 import { Button } from '../core/Button';
 import { Checkbox } from '../core/Checkbox';
+import { Heading } from '../core/Heading';
 import { Icon } from '../core/Icon';
 import { Link } from '../core/Link';
 import { Select } from '../core/Select';
@@ -40,6 +41,10 @@ export function SettingsInterface() {
 
   return (
     <VStack space={3} className="mb-4">
+      <div className="mb-3">
+        <Heading>Interface</Heading>
+        <p className="text-text-subtle">Tweak settings related to the user interface.</p>
+      </div>
       <Select
         name="switchWorkspaceBehavior"
         label="Open workspace behavior"
