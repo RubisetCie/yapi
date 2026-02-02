@@ -73,6 +73,20 @@ pub struct ClientCertificate {
     pub enabled: bool,
 }
 
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default, TS)]
+#[serde(rename_all = "camelCase")]
+#[ts(export, export_to = "gen_models.ts")]
+pub struct DnsOverride {
+    pub hostname: String,
+    #[serde(default)]
+    pub ipv4: Vec<String>,
+    #[serde(default)]
+    pub ipv6: Vec<String>,
+    #[serde(default = "default_true")]
+    #[ts(optional, as = "Option<bool>")]
+    pub enabled: bool,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, TS)]
 #[serde(rename_all = "snake_case")]
 #[ts(export, export_to = "gen_models.ts")]
@@ -283,6 +297,8 @@ pub struct Workspace {
     #[serde(default = "default_true")]
     pub setting_follow_redirects: bool,
     pub setting_request_timeout: i32,
+    #[serde(default)]
+    pub setting_dns_overrides: Vec<DnsOverride>,
 }
 
 impl UpsertModelInfo for Workspace {
@@ -323,6 +339,7 @@ impl UpsertModelInfo for Workspace {
             (SettingFollowRedirects, self.setting_follow_redirects.into()),
             (SettingRequestTimeout, self.setting_request_timeout.into()),
             (SettingValidateCertificates, self.setting_validate_certificates.into()),
+            (SettingDnsOverrides, serde_json::to_string(&self.setting_dns_overrides)?.into()),
         ])
     }
 
@@ -339,6 +356,7 @@ impl UpsertModelInfo for Workspace {
             WorkspaceIden::SettingFollowRedirects,
             WorkspaceIden::SettingRequestTimeout,
             WorkspaceIden::SettingValidateCertificates,
+            WorkspaceIden::SettingDnsOverrides,
         ]
     }
 
@@ -348,6 +366,7 @@ impl UpsertModelInfo for Workspace {
     {
         let headers: String = row.get("headers")?;
         let authentication: String = row.get("authentication")?;
+        let setting_dns_overrides: String = row.get("setting_dns_overrides")?;
         Ok(Self {
             id: row.get("id")?,
             model: row.get("model")?,
@@ -362,6 +381,7 @@ impl UpsertModelInfo for Workspace {
             setting_follow_redirects: row.get("setting_follow_redirects")?,
             setting_request_timeout: row.get("setting_request_timeout")?,
             setting_validate_certificates: row.get("setting_validate_certificates")?,
+            setting_dns_overrides: serde_json::from_str(&setting_dns_overrides).unwrap_or_default(),
         })
     }
 }
@@ -1313,6 +1333,7 @@ pub struct HttpResponse {
     pub content_length_compressed: Option<i32>,
     pub elapsed: i32,
     pub elapsed_headers: i32,
+    pub elapsed_dns: i32,
     pub error: Option<String>,
     pub headers: Vec<HttpResponseHeader>,
     pub remote_addr: Option<String>,
@@ -1361,6 +1382,7 @@ impl UpsertModelInfo for HttpResponse {
             (ContentLengthCompressed, self.content_length_compressed.into()),
             (Elapsed, self.elapsed.into()),
             (ElapsedHeaders, self.elapsed_headers.into()),
+            (ElapsedDns, self.elapsed_dns.into()),
             (Error, self.error.into()),
             (Headers, serde_json::to_string(&self.headers)?.into()),
             (RemoteAddr, self.remote_addr.into()),
@@ -1382,6 +1404,7 @@ impl UpsertModelInfo for HttpResponse {
             HttpResponseIden::ContentLengthCompressed,
             HttpResponseIden::Elapsed,
             HttpResponseIden::ElapsedHeaders,
+            HttpResponseIden::ElapsedDns,
             HttpResponseIden::Error,
             HttpResponseIden::Headers,
             HttpResponseIden::RemoteAddr,
@@ -1415,6 +1438,7 @@ impl UpsertModelInfo for HttpResponse {
             version: r.get("version")?,
             elapsed: r.get("elapsed")?,
             elapsed_headers: r.get("elapsed_headers")?,
+            elapsed_dns: r.get("elapsed_dns").unwrap_or_default(),
             remote_addr: r.get("remote_addr")?,
             status: r.get("status")?,
             status_reason: r.get("status_reason")?,
@@ -1451,7 +1475,21 @@ pub enum HttpResponseEventData {
     },
     SendUrl {
         method: String,
+        #[serde(default)]
+        scheme: String,
+        #[serde(default)]
+        username: String,
+        #[serde(default)]
+        password: String,
+        #[serde(default)]
+        host: String,
+        #[serde(default)]
+        port: u16,
         path: String,
+        #[serde(default)]
+        query: String,
+        #[serde(default)]
+        fragment: String,
     },
     ReceiveUrl {
         version: String,
@@ -1470,6 +1508,12 @@ pub enum HttpResponseEventData {
     },
     ChunkReceived {
         bytes: usize,
+    },
+    DnsResolved {
+        hostname: String,
+        addresses: Vec<String>,
+        duration: u64,
+        overridden: bool,
     },
 }
 

@@ -1,4 +1,5 @@
 use crate::error::Result;
+use crate::models_ext::QueryManagerExt;
 use crate::window_menu::app_menu;
 use log::info;
 use rand::random;
@@ -7,7 +8,6 @@ use tauri::{
     WindowEvent,
 };
 use tokio::sync::mpsc;
-use crate::models_ext::QueryManagerExt;
 
 const DEFAULT_WINDOW_WIDTH: f64 = 1100.0;
 const DEFAULT_WINDOW_HEIGHT: f64 = 600.0;

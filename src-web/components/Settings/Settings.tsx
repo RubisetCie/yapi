@@ -4,7 +4,6 @@ import { type } from '@tauri-apps/plugin-os';
 import { pluginsAtom, settingsAtom } from '@yaakapp-internal/models';
 import classNames from 'classnames';
 import { useAtomValue } from 'jotai';
-import { useState } from 'react';
 import { useKeyPressEvent } from 'react-use';
 import { appInfo } from '../../lib/appInfo';
 import { capitalize } from '../../lib/capitalize';
@@ -47,7 +46,6 @@ export default function Settings({ hide }: Props) {
   const { tab: tabFromQuery } = useSearch({ from: '/workspaces/$workspaceId/settings' });
   // Parse tab and subtab (e.g., "plugins:installed")
   const [mainTab, subtab] = tabFromQuery?.split(':') ?? [];
-  const [tab, setTab] = useState<string | undefined>(mainTab || tabFromQuery);
   const settings = useAtomValue(settingsAtom);
   const plugins = useAtomValue(pluginsAtom);
 
@@ -86,11 +84,10 @@ export default function Settings({ hide }: Props) {
       )}
       <Tabs
         layout="horizontal"
-        value={tab}
+        defaultValue={mainTab || tabFromQuery}
         addBorders
         tabListClassName="min-w-[10rem] bg-surface x-theme-sidebar border-r border-border pl-3"
         label="Settings"
-        onChangeValue={setTab}
         tabs={tabs.map(
           (value): TabItem => ({
             value,
@@ -136,7 +133,7 @@ export default function Settings({ hide }: Props) {
           <SettingsHotkeys />
         </TabContent>
         <TabContent value={TAB_PLUGINS} className="h-full grid grid-rows-1 px-6 !py-4">
-          <SettingsPlugins defaultSubtab={tab === TAB_PLUGINS ? subtab : undefined} />
+          <SettingsPlugins defaultSubtab={mainTab === TAB_PLUGINS ? subtab : undefined} />
         </TabContent>
         <TabContent value={TAB_PROXY} className="overflow-y-auto h-full px-6 !py-4">
           <SettingsProxy />

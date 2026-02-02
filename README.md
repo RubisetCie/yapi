@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="200px" src="https://github.com/RubisetCie/yapi/raw/main/src-tauri/icons/icon.png">
+  <img width="200px" src="https://github.com/RubisetCie/yapi/raw/main/crates-tauri/yaak-app/icons/icon.png">
 </p>
 
 <h1 align="center">

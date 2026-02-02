@@ -15,7 +15,7 @@ use tauri::path::BaseDirectory;
 use tauri::plugin::{Builder, TauriPlugin};
 use tauri::{
     AppHandle, Emitter, Manager, RunEvent, Runtime, State, WebviewWindow, command,
-    generate_handler, is_dev,
+    is_dev,
 };
 use yaak_models::models::Plugin;
 use yaak_models::util::UpdateSource;
@@ -35,7 +35,7 @@ static EXITING: AtomicBool = AtomicBool::new(false);
 // ============================================================================
 
 #[command]
-pub(crate) async fn cmd_plugins_search<R: Runtime>(
+pub async fn cmd_plugins_search<R: Runtime>(
     app_handle: AppHandle<R>,
     query: &str,
 ) -> Result<PluginSearchResponse> {
@@ -44,7 +44,7 @@ pub(crate) async fn cmd_plugins_search<R: Runtime>(
 }
 
 #[command]
-pub(crate) async fn cmd_plugins_install<R: Runtime>(
+pub async fn cmd_plugins_install<R: Runtime>(
     window: WebviewWindow<R>,
     name: &str,
     version: Option<String>,
@@ -66,7 +66,7 @@ pub(crate) async fn cmd_plugins_install<R: Runtime>(
 }
 
 #[command]
-pub(crate) async fn cmd_plugins_uninstall<R: Runtime>(
+pub async fn cmd_plugins_uninstall<R: Runtime>(
     plugin_id: &str,
     window: WebviewWindow<R>,
 ) -> Result<Plugin> {
@@ -82,11 +82,6 @@ pub(crate) async fn cmd_plugins_uninstall<R: Runtime>(
 
 pub fn init<R: Runtime>() -> TauriPlugin<R> {
     Builder::new("yaak-plugins")
-        .invoke_handler(generate_handler![
-            cmd_plugins_search,
-            cmd_plugins_install,
-            cmd_plugins_uninstall,
-        ])
         .setup(|app_handle, _| {
             // Resolve paths for plugin manager
             let vendored_plugin_dir = app_handle

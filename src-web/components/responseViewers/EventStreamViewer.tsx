@@ -51,16 +51,17 @@ function ActualEventStreamViewer({ response }: Props) {
               <span className="truncate text-xs">{event.data.slice(0, 1000)}</span>
             </HStack>
           }
-          timestamp={new Date().toISOString().slice(0, -1)} // SSE events don't have timestamps
         />
       )}
-      renderDetail={({ event }) => (
+      renderDetail={({ event, index, onClose }) => (
         <EventDetail
           event={event}
+          index={index}
           showLarge={showLarge}
           showingLarge={showingLarge}
           setShowLarge={setShowLarge}
           setShowingLarge={setShowingLarge}
+          onClose={onClose}
         />
       )}
     />
@@ -69,16 +70,20 @@ function ActualEventStreamViewer({ response }: Props) {
 
 function EventDetail({
   event,
+  index,
   showLarge,
   showingLarge,
   setShowLarge,
   setShowingLarge,
+  onClose,
 }: {
   event: ServerSentEvent;
+  index: number;
   showLarge: boolean;
   showingLarge: boolean;
   setShowLarge: (v: boolean) => void;
   setShowingLarge: (v: boolean) => void;
+  onClose: () => void;
 }) {
   const language = useMemo<'text' | 'json'>(() => {
     if (!event?.data) return 'text';
@@ -87,7 +92,11 @@ function EventDetail({
 
   return (
     <div className="flex flex-col h-full">
-      <EventDetailHeader title="Message Received" />
+      <EventDetailHeader
+        title="Message Received"
+        prefix={<EventLabels event={event} index={index} />}
+        onClose={onClose}
+      />
       {!showLarge && event.data.length > 1000 * 1000 ? (
         <VStack space={2} className="italic text-text-subtlest">
           Message previews larger than 1MB are hidden
